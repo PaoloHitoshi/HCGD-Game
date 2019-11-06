@@ -1,6 +1,8 @@
-# TG-Game
+# TG-Source
 
-This repository is a fork of https://github.com/ThiagoYonamine/lifes.
+  - **player:** Unity game (base: https://github.com/ThiagoYonamine/lifes) 
+  - **backend:** Django api
+  - **frontend:** Angular project
 
 
 
