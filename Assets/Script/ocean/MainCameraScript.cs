@@ -6,6 +6,7 @@ public class MainCameraScript : MonoBehaviour {
 	public Transform player; 
 	private Vector3 offset;
 	private float cameraSpeed;
+
 	// Use this for initialization
 	void Start () {
 		cameraSpeed = 1.5f;

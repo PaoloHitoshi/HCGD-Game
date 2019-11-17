@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class comandosBasicos : MonoBehaviour {
+public class ComandosBasicos : MonoBehaviour {
 
-	public void carregaCena(string nome){
+	public void CarregaCena(string nome){
 		SceneManager.LoadScene (nome, LoadSceneMode.Single);
 	}
 
-	public void quit(){
+	public void Quit(){
 		  Application.Quit();
 	}
-
-
 }

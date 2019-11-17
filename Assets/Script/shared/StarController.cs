@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StarController : MonoBehaviour {
 	public Sprite buttonOn;
 	public Sprite buttonOff;
+
 	void TurnOn () {
 		this.gameObject.GetComponent<Button>().image.sprite = buttonOn;
 	}

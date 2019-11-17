@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class orientationPortrait : MonoBehaviour {
+public class OrientationPortrait : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

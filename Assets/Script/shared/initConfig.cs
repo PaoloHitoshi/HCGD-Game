@@ -6,12 +6,9 @@ using System.IO;
 using System.Text;
 using UnityEngine.Networking;
 
-public class initConfig : MonoBehaviour {
-
+public class InitConfig : MonoBehaviour {
 	public Text log;
-	private string url = "http://lifes.dc.ufscar.br/hcgd-backend-teste/project/playergames/?user_id=";
-
-	public GameObject gameQuiz;
+    public GameObject gameQuiz;
 	public GameObject gamePuzzle;
 	public GameObject gamePlataform;
 
@@ -19,63 +16,67 @@ public class initConfig : MonoBehaviour {
 		gameQuiz.SetActive(false);
 		gamePuzzle.SetActive(false);
 		gamePlataform.SetActive(false);
-		url = url + Settings.userId;
-		Debug.Log("GET: " + url + Settings.userId);
-		StartCoroutine(Get(url));
+		string url = $"{Endpoints.PlayerGames}{Settings.userId}";
+
+		StartCoroutine(GetPlayerGames(url));
 	}
 
-	IEnumerator Get(string url) {
-        using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-            yield return www.SendWebRequest();
+	IEnumerator GetPlayerGames(string url) {
+        using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(url)) {
+            yield return unityWebRequest.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)  {
-				log.text = www.error;
-				Debug.Log(www.error);
+            if (unityWebRequest.isNetworkError)  {
+				log.text = "Não foi possível obter os jogos, verifique sua conexão";
+                Debug.Log(unityWebRequest.error);
             }
-           
-		/*  TEST LOCAL */
-		string path = "Assets/Resources/test4.txt";
-		StreamReader reader = new StreamReader(path); 
-		string json = reader.ReadToEnd();
-		reader.Close();
-		string JSONToParse = "{\"configurations\":" + json + "}";
-		/*################*/
 
-        /* REPONSE FROM SERVER */
-		//log.text = www.downloadHandler.text;
-		//string response = www.downloadHandler.text;
-		//Test Request
-		//string JSONToParse = "{\"configurations\":" + response + "}";
-        /* ################ */
-				Debug.Log(JSONToParse);
-				Response gc= JsonUtility.FromJson<Response>(JSONToParse);
+            if (unityWebRequest.isHttpError)
+            {
+                log.text = "Alguma coisa deu errada, tente novamente";
+                Debug.Log(unityWebRequest.error);
+            }
 
-				for(int i=0; i<gc.configurations.Length; i++) {
-					Debug.Log("init: " + gc.configurations[i].game.name);
-					switch (gc.configurations[i].game.name) {	
-						case "Perguntas":
-							Settings.quiz = gc.configurations[i];
-							gameQuiz.SetActive(true);
-							break;
-						case "Encaixe":
-							Settings.puzzle = gc.configurations[1];
-							gamePuzzle.SetActive(true);
-							break;
-						case "Coleta":
-							Settings.plataform = gc.configurations[2];
-							gamePlataform.SetActive(true);
-							break;
-					}
-				}
+            /*  TEST LOCAL */
+            //string path = "Assets/Resources/test4.txt";
+            //StreamReader reader = new StreamReader(path); 
+            //string json = reader.ReadToEnd();
+            //reader.Close();
+            //string JSONToParse = "{\"configurations\":" + json + "}";
+            /*################*/
+
+            string response = unityWebRequest.downloadHandler.text;
+            Debug.Log(response);
+
+            string JSONToParse = "{\"configurations\":" + response + "}";
+            Debug.Log(JSONToParse);
+
+            Response gameConfigurations = JsonUtility.FromJson<Response>(JSONToParse);
+
+            if (gameConfigurations.configurations.Length != 0) {
+                for (int i = 0; i < gameConfigurations.configurations.Length; i++)
+                {
+                    Debug.Log("init: " + gameConfigurations.configurations[i].game.name);
+                    switch (gameConfigurations.configurations[i].game.name)
+                    {
+                        case "Perguntas":
+                            Settings.quiz = gameConfigurations.configurations[i];
+                            gameQuiz.SetActive(true);
+                            break;
+                        case "Encaixe":
+                            Settings.puzzle = gameConfigurations.configurations[i];
+                            gamePuzzle.SetActive(true);
+                            break;
+                        case "Coleta":
+                            Settings.plataform = gameConfigurations.configurations[i];
+                            gamePlataform.SetActive(true);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                log.text = "Nenhum jogo disponível";
+            }
         }
     }
-}
-
-
-public static class Settings{
-	public static long userId;
-	public static LoginWrapper login;
-	public static Configuration plataform;
-	public static Configuration puzzle;
-	public static Configuration quiz;
 }

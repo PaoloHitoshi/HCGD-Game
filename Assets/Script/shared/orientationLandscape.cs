@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class orientationLandscape : MonoBehaviour {
+public class OrientationLandscape : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class JsonUtils : MonoBehaviour {
-	private string url = "http://lifes.dc.ufscar.br/hcgd-backend-teste/project/gamesession";
+	private string url = Endpoints.GameSession;
 
 	public void sendResponse(GameResult performance){
 		performance.player = Settings.userId;
