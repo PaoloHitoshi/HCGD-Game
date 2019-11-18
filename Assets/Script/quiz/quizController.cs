@@ -100,7 +100,7 @@ public class quizController : MonoBehaviour {
 	}
 
 	public void setFeelingRate(int stars){
-		performance.feelingRate = stars;
+		performance.feeling_rate = stars;
 		performance.score = performance.hits;
 		JsonUtils jsonUtils = (new GameObject("jsonUtils")).AddComponent<JsonUtils>();
 		jsonUtils.sendResponse(performance);

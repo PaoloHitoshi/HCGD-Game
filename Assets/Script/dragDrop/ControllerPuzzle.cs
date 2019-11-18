@@ -44,7 +44,7 @@ public class ControllerPuzzle : MonoBehaviour {
 	}
 	
 	public void setFeelingRate(int stars){
-		performance.feelingRate = stars;
+		performance.feeling_rate = stars;
 		JsonUtils jsonUtils = (new GameObject("jsonUtils")).AddComponent<JsonUtils>();
 		jsonUtils.sendResponse(performance);
 	}

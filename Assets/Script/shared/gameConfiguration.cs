@@ -163,7 +163,7 @@ public class GameResult{
 	public int hits;
     public int fails;
 	public int score;
-	public int feelingRate;
+	public int feeling_rate;
 	public long game;
 	public long player;
 }
