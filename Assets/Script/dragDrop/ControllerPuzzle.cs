@@ -15,8 +15,19 @@ public class ControllerPuzzle : MonoBehaviour {
 	void Start () {
 		pieces = 0;
 		isCompleted = false;
-		totalPieces = Settings.puzzle.game.components.Length;
-		performance = new GameResult();
+
+        foreach (var component in Settings.puzzle.game.components)
+        {
+            foreach (var resource in component.resources)
+            {
+                if (resource.resourceType.name == "Imagem")
+                {
+                    totalPieces++;
+                }
+            }
+        }
+
+        performance = new GameResult();
 		//set plataform id
 		performance.game = 2;
 		performance.hits = 0;
@@ -36,12 +47,12 @@ public class ControllerPuzzle : MonoBehaviour {
 
 	void showFeedback(){
 		isCompleted= true;
-		/*GameObject feedbackMenu = PrefabUtility.InstantiatePrefab(feedback) as GameObject;
-		feedbackMenu.GetComponentInChildren<Text>().text = "oi";//Settings.puzzle.gameComponents
-		feedbackMenu.transform.SetParent (GameObject.FindGameObjectWithTag("Canvas").transform, false);*/
-		feedback.SetActive(true);
+        //GameObject feedbackMenu = PrefabUtility.InstantiatePrefab(feedback) as GameObject;
+        //feedbackMenu.transform.SetParent (GameObject.FindGameObjectWithTag("Canvas").transform, false);
 
-	}
+        feedback.SetActive(true);
+
+    }
 	
 	public void setFeelingRate(int stars){
 		performance.feeling_rate = stars;

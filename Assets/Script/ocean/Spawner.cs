@@ -87,17 +87,18 @@ public class Spawner : MonoBehaviour {
 		foreach(Component component in componets){
 			Debug.Log("Loading component: " + component.name);
 			foreach(Resource resource in component.resources){
-				createInstance(index, resource.score);
-				Debug.Log("Loading resource: " + resource.id + " type: " + resource.resourceType.name);
+				createInstance(index, component.tag == "coletavel" ? 10 : 0);
+                Debug.Log("Loading resource: " + resource.id + " type: " + resource.resourceType.name);
 				switch (resource.resourceType.name){
 					case "Texto": // Text
-						loadFeedback(resource.content);
+						loadFeedback("Muito Bem!");
 						break;
 					case "Imagem": // Image
 						StartCoroutine(loadImage(index, resource.content));
 						break;
 					case "Áudio": // Sound
-						StartCoroutine(loadSound(index, resource.content));
+					case "Audio": // Sound
+                        StartCoroutine(loadSound(index, resource.content));
 						break;
 					default:
 						Debug.Log("Resource type not defined:" + resource.resourceType.name);

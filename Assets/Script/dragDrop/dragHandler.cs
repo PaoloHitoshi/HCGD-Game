@@ -47,13 +47,10 @@ public class dragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		
 		itemDrag = null;
 		if (!done) {
 			transform.position = startPosition;
-
 		}
-
 	}
 
 	#endregion
@@ -63,7 +60,7 @@ public class dragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 		if (colisao.gameObject.name == nameColide) {
 			transform.position = colisao.transform.position;
 			colisao.transform.position = transform.position;
-			source.PlayOneShot(this.GetComponent<Collectable>().sound, 1);
+			//source.PlayOneShot(this.GetComponent<Collectable>().sound, 1);
 			Destroy(colisao.gameObject.GetComponent<Rigidbody2D>());
 			done = true;
 			ControllerPuzzle.completePiece();
