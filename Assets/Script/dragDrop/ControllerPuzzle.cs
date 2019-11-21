@@ -46,7 +46,7 @@ public class ControllerPuzzle : MonoBehaviour {
 	}
 
 	void showFeedback(){
-		isCompleted= true;
+		isCompleted = true;
         //GameObject feedbackMenu = PrefabUtility.InstantiatePrefab(feedback) as GameObject;
         //feedbackMenu.transform.SetParent (GameObject.FindGameObjectWithTag("Canvas").transform, false);
 
