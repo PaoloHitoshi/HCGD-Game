@@ -60,24 +60,24 @@ public class SpawnerPuzzle : MonoBehaviour {
 
 	void Start() {
 		int index = 0;
-		Component[] componets = Settings.puzzle.game.components;
+		Component[] componets = Settings.puzzle.components;
 		objects = new GameObject[componets.Length];
 		foreach(Component component in componets){
 			Debug.Log("Loading component: " + component.name);
-			foreach(Resource resource in component.resources){
+			foreach(ComponentField field in component.fields){
 				//createInstance(index);
-				Debug.Log("Loading resource: " + resource.score);
-				switch (resource.resourceType.name){
+				Debug.Log("Loading resource: " + field.resource.score);
+				switch (field.type){
 					case "Texto": // Text
 						break;
 					case "Imagem": // Image
-						StartCoroutine(loadImage(index, resource.content));
+						StartCoroutine(loadImage(index, field.resource.content));
 						break;
 					case "Áudio": // Sound
-						StartCoroutine(loadSound(index, resource.content));
+						StartCoroutine(loadSound(index, field.resource.content));
 						break;
 					default:
-						Debug.Log("Resource type not defined:" + resource.resourceType.name);
+						Debug.Log("Resource type not defined:" + field.type);
 						break;
                 }
                 index++;

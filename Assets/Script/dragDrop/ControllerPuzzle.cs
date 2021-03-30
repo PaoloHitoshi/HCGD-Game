@@ -16,11 +16,11 @@ public class ControllerPuzzle : MonoBehaviour {
 		pieces = 0;
 		isCompleted = false;
 
-        foreach (var component in Settings.puzzle.game.components)
+        foreach (var component in Settings.puzzle.components)
         {
-            foreach (var resource in component.resources)
+            foreach (ComponentField field in component.fields)
             {
-                if (resource.resourceType.name == "Imagem")
+                if (field.type == "Imagem")
                 {
                     totalPieces++;
                 }

@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
-using System.Text;
 using UnityEngine.Networking;
+using System.IO;
 
 public class InitConfig : MonoBehaviour {
 	public Text log;
@@ -37,46 +35,48 @@ public class InitConfig : MonoBehaviour {
             }
 
             /*  TEST LOCAL */
-            //string path = "Assets/Resources/test4.txt";
-            //StreamReader reader = new StreamReader(path); 
-            //string json = reader.ReadToEnd();
-            //reader.Close();
+            string path = "Assets/Resources/QuizzExample_.json";
+            StreamReader reader = new StreamReader(path); 
+            string json = reader.ReadToEnd();
+            reader.Close();
             //string JSONToParse = "{\"configurations\":" + json + "}";
             /*################*/
 
-            string response = unityWebRequest.downloadHandler.text;
-            Debug.Log(response);
+            //string response = unityWebRequest.downloadHandler.text;
+            //Debug.Log(response);
 
-            string JSONToParse = "{\"configurations\":" + response + "}";
-            Debug.Log(JSONToParse);
+            //string JSONToParse = "{\"configurations\":" + response + "}";
+            Debug.Log(json);
 
-            Response gameConfigurations = JsonUtility.FromJson<Response>(JSONToParse);
+            Response gameConfigurations = JsonUtility.FromJson<Response>(json);
 
-            if (gameConfigurations.configurations.Length != 0) {
-                for (int i = 0; i < gameConfigurations.configurations.Length; i++)
-                {
-                    Debug.Log("init: " + gameConfigurations.configurations[i].game.name);
-                    switch (gameConfigurations.configurations[i].game.name)
-                    {
-                        case "Perguntas":
-                            Settings.quiz = gameConfigurations.configurations[i];
-                            gameQuiz.SetActive(true);
-                            break;
-                        case "Encaixe":
-                            Settings.puzzle = gameConfigurations.configurations[i];
-                            gamePuzzle.SetActive(true);
-                            break;
-                        case "Coleta":
-                            Settings.plataform = gameConfigurations.configurations[i];
-                            gamePlataform.SetActive(true);
-                            break;
-                    }
-                }
-            }
-            else
+            if (gameConfigurations.games.Length == 0)
             {
                 log.text = "Nenhum jogo disponível";
+                yield break;
             }
+
+
+            for (int i = 0; i < gameConfigurations.games.Length; i++)
+            {
+                Debug.Log("init: " + gameConfigurations.games[i].name);
+                switch (gameConfigurations.games[i].mechanic_name)
+                {
+                    case "Quizz":
+                        Settings.quiz = gameConfigurations.games[i];
+                        gameQuiz.SetActive(true);
+                        break;
+                    case "Puzzle":
+                        Settings.puzzle = gameConfigurations.games[i];
+                        gamePuzzle.SetActive(true);
+                        break;
+                    case "Collect":
+                        Settings.plataform = gameConfigurations.games[i];
+                        gamePlataform.SetActive(true);
+                        break;
+                }
+            }
+
         }
     }
 }

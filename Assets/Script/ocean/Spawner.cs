@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.Networking;
 
 public class Spawner : MonoBehaviour {
 
@@ -20,19 +21,31 @@ public class Spawner : MonoBehaviour {
 		collectables[index] = newPrefab;
 	}
 
-	private IEnumerator loadImage(int index, string url){
-		WWW www = new WWW(url);
-		yield return www;
+	private IEnumerator loadImage(int index, string url)
+	{
+		using (UnityWebRequest textureWebRequest = UnityWebRequestTexture.GetTexture(url))
+		{
+			yield return textureWebRequest.SendWebRequest();
+
+			if (textureWebRequest.isNetworkError || textureWebRequest.isHttpError)
+			{
+				Debug.Log(textureWebRequest.error);
+			}
+			else
+			{
+                // Get downloaded asset bundle
+                Texture2D texture = DownloadHandlerTexture.GetContent(textureWebRequest);
+				//www.LoadImageIntoTexture(texture);
+				Rect rec = new Rect(0, 0, texture.width, texture.height);
+				Sprite spriteToUse = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 10);
+				collectables[index].GetComponent<SpriteRenderer>().sprite = spriteToUse;
+				Debug.Log("Resource added"+ collectables[index].GetComponent<Collectable>().score);
+			}
+		}
+		
 		// Create a texture in DXT1 format
-		Texture2D texture = new Texture2D(www.texture.width, www.texture.height, TextureFormat.DXT1, false);
+		//Texture2D texture = new Texture2D(www.texture.width, www.texture.height, TextureFormat.DXT1, false);
 		// assign the downloaded image to sprite
-		www.LoadImageIntoTexture(texture);
-		Rect rec = new Rect(0, 0, texture.width, texture.height);
-		Sprite spriteToUse = Sprite.Create(texture, rec, new Vector2(0.5f, 0.5f), 10);
-		collectables[index].GetComponent<SpriteRenderer>().sprite = spriteToUse;
-		Debug.Log("Resource added"+ collectables[index].GetComponent<Collectable>().score);
-		www.Dispose ();
-		www = null;
 	}
 
 	private IEnumerator loadSound(int index, string url){
@@ -49,59 +62,27 @@ public class Spawner : MonoBehaviour {
 	private void loadFeedback(string text){
 		feedback.GetComponentInChildren<Text>().text = text;
 	}
-/*
-	void Awake(){
-		//int componentsLength = Configuration.plataform.mechanic.components.Length;
-		
-		GameComponent[] componets = Settings.plataform.game.components.Length;
-		collectables = new GameObject[componets.Length];
-		int index = 0;
-		foreach(GameComponent component in componets){
-			Debug.Log("Loading component: " + component.id);
-			foreach(Resource resource in component.resources){
-				createInstance(index, component.component.score);
-				Debug.Log("Loading resource: " + resource.id + " type: " + resource.resourceType.name);
-				switch (resource.resourceType.id){
-					case 1: // Text
-						loadFeedback(resource.content);
-						break;
-					case 2: // Image
-						StartCoroutine(loadImage(index, resource.content));
-						break;
-					case 3: // Sound
-						StartCoroutine(loadSound(index, resource.content));
-						break;
-					default:
-						Debug.Log("Resource type not defined:" + resource.resourceType.name);
-						break;
-				}
-			}
-			index++;
-		}
-	 }*/
 
 	 void Awake(){
-		Component[] componets = Settings.plataform.game.components;
+		Component[] componets = Settings.plataform.components;
 		collectables = new GameObject[componets.Length];
 		int index = 0;
 		foreach(Component component in componets){
 			Debug.Log("Loading component: " + component.name);
-			foreach(Resource resource in component.resources){
+			foreach(ComponentField field in component.fields){
 				createInstance(index, component.tag == "coletavel" ? 10 : 0);
-                Debug.Log("Loading resource: " + resource.id + " type: " + resource.resourceType.name);
-				switch (resource.resourceType.name){
+                switch (field.type){
 					case "Texto": // Text
 						loadFeedback("Muito Bem!");
 						break;
 					case "Imagem": // Image
-						StartCoroutine(loadImage(index, resource.content));
+						StartCoroutine(loadImage(index, field.resource.content));
 						break;
-					case "Áudio": // Sound
 					case "Audio": // Sound
-                        StartCoroutine(loadSound(index, resource.content));
+                        StartCoroutine(loadSound(index, field.resource.content));
 						break;
 					default:
-						Debug.Log("Resource type not defined:" + resource.resourceType.name);
+						Debug.Log("Resource type not defined:" + field.type);
 						break;
 				}
 			}
