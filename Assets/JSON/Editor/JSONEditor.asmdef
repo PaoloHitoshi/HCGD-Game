@@ -1,0 +1,17 @@
+{
+    "name": "JSONEditor",
+    "references": [
+        "GUID:c76d6f9b1ea524546aa48e60cd1a0172"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

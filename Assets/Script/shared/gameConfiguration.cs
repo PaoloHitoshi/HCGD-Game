@@ -22,6 +22,10 @@ public class LoginWrapper{
 [System.Serializable]
 public class Response{
 	public Game[] games;
+	public Response(Game[] gameArray)
+    {
+		games = gameArray;
+    }
 }
 
 [System.Serializable]
