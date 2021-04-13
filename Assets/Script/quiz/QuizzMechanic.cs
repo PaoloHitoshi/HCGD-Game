@@ -74,6 +74,9 @@ public class QuizzMechanic : IMechanic
     /// <returns>Converted Question</returns>
     private Question FromComponentToQuestion(Component component)
     {
+        int nFieldsSet = 0;
+        bool answerSet = false;
+
         Question question = new Question();
 
         foreach (ComponentField field in component.fields)
@@ -83,38 +86,48 @@ public class QuizzMechanic : IMechanic
                 throw new ArgumentNullException($"Invalid content: {field.resource.content} with role {field.role}");
             }
 
-            if (field.role.Equals("question"))
+            if (field.role.Equals("question") && question.question == null)
             {
                 question.question = field.resource.content;
+                nFieldsSet++;
             }
-            else if (field.role.Equals("answer"))
+            else if (field.role.Equals("answer") && !answerSet)
             {
                 if (int.TryParse(field.resource.content, out int answer) && (answer >= 0 && answer < 4))
                 {
                     question.answer = answer;
+                    answerSet = true;
+                    nFieldsSet++;
                 }
                 else throw new ArgumentOutOfRangeException($"Anwser {answer} is out of range");
             }
-            else if (field.role.Equals("option1"))
+            else if (field.role.Equals("option1") && question.option1 == null)
             {
                 question.option1 = field.resource.content;
+                nFieldsSet++;
             }
-            else if (field.role.Equals("option2"))
+            else if (field.role.Equals("option2") && question.option2 == null)
             {
                 question.option2 = field.resource.content;
+                nFieldsSet++;
             }
-            else if (field.role.Equals("option3"))
+            else if (field.role.Equals("option3") && question.option3 == null)
             {
                 question.option3 = field.resource.content;
+                nFieldsSet++;
             }
-            else if (field.role.Equals("option4"))
+            else if (field.role.Equals("option4") && question.option4 == null)
             {
                 question.option4 = field.resource.content;
+                nFieldsSet++;
             }
             else
                 throw new ArgumentOutOfRangeException($"Unknown role received {field.role}");
         }
 
+        if (nFieldsSet != 6 || !answerSet)
+            throw new IncompleteComponentException();
+        
         return question;
     }
 

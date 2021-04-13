@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using UnityEngine;
 
 namespace Tests
 {
@@ -48,6 +49,7 @@ namespace Tests
         {
             public class Reading
             {
+                private Game ReadGameFile(string fileName) => Resources.Load<GameTest>("Quizz/" + fileName).game;
 
                 [Test]
                 public void Non_Quizz_Game_Reading()
@@ -99,48 +101,125 @@ namespace Tests
                 }
 
                 [Test]
+                [TestCase("Quizz_One_Question")]
                 public void One_Question_Quizz_Reading(string input_file_name)
                 {
-                    Assert.Fail();
+                    // Prepare
+                    Game game = ReadGameFile(input_file_name);
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
+
+                    // Act
+                    try
+                    {
+                        quizzMechanic.Read(game);
+                    }
+                    catch(Exception e)
+                    {
+                        Assert.Fail(e.Message);
+                    }
+
+                    // Assert
+                    Assert.AreEqual(1, quizzMechanic.questions.Count);
                 }
 
                 [Test]
+                [TestCase("Quizz_Multiple_Questions")]
                 public void Multiple_Question_Quizz_Reading(string input_file_name)
                 {
-                    Assert.Fail();
+                    // Prepare
+                    Game game = ReadGameFile(input_file_name);
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
 
+                    // Act
+                    try
+                    {
+                        quizzMechanic.Read(game);
+                    }
+                    catch (Exception e)
+                    {
+                        Assert.Fail(e.Message);
+                    }
+
+                    // Assert
+                    Assert.IsTrue(quizzMechanic.questions.Count > 1);
                 }
 
                 [Test]
-                public void Missing_Question_Content(string input_file_name)
+                [TestCase("Quizz_Missing_Question_Content")]
+                [TestCase("Quizz_Missing_option_Content")]
+                [TestCase("Quizz_Missing_answer_Content")]
+                public void Throws_Exception_At_Empty_Field_Content(string input_file_name)
                 {
+                    // Prepare
+                    Game game = ReadGameFile(input_file_name);
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
 
-                    Assert.Fail();
+                    // Act
+                    TestDelegate testDelegate = () => quizzMechanic.Read(game);
+
+                    // Assert
+                    Assert.Throws<ArgumentNullException>(testDelegate);
                 }
-                
-                [Test]
-                public void Out_Of_Range_Answer(string input_file_name)
-                {
-                    Assert.Fail();
 
+                [Test]
+                [TestCase("Quizz_Missing_Question_Field")]
+                [TestCase("Quizz_Missing_option1_Field")]
+                [TestCase("Quizz_Missing_option2_Field")]
+                [TestCase("Quizz_Missing_option3_Field")]
+                [TestCase("Quizz_Missing_option4_Field")]
+                [TestCase("Quizz_Missing_answer_Field")]
+                [TestCase("Quizz_Missing_All_Fields")]
+                public void Throws_Exception_At_Missing_Field(string input_file_name)
+                {
+
+                    // Prepare
+                    Game game = ReadGameFile(input_file_name);
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
+
+                    // Act
+                    TestDelegate testDelegate = () => quizzMechanic.Read(game);
+
+                    // Assert
+                    Assert.Throws<IncompleteComponentException>(testDelegate);
                 }
 
                 [Test]
-                public void Missing_Option(string input_file_name)
+                [TestCase(-1)]
+                [TestCase(4)]
+                [TestCase(-10)]
+                [TestCase(13)]
+                public void Throws_Exception_At_OutOfRange_Answer(int range)
                 {
-                    Assert.Fail();
+                    // Prepare
+                    Game game = ReadGameFile("Quizz_One_Question");
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
 
+                    Array.Find(game.components[0].fields, (x) => x.role == "answer").resource.content = range.ToString();
+
+                    // Act
+                    TestDelegate testDelegate = () => quizzMechanic.Read(game);
+
+                    // Assert
+                    Assert.Throws<ArgumentOutOfRangeException>(testDelegate);
                 }
 
                 [Test]
                 [TestCase("_Qestione")]
                 [TestCase("_tag")]
                 [TestCase("")]
-                [TestCase(null)]
                 public void Unknown_Component(string component_tag)
                 {
-                    Assert.Fail();
+                    // Prepare
+                    Game game = ReadGameFile("Quizz_One_Question");
+                    QuizzMechanic quizzMechanic = new QuizzMechanic();
 
+                    game.components[0].tag = component_tag;
+
+                    // Act
+                    TestDelegate testDelegate = () => quizzMechanic.Read(game);
+
+                    // Assert
+                    Assert.Throws<ArgumentException>(testDelegate);
                 }
             }
 

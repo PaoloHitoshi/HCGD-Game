@@ -1,0 +1,17 @@
+{
+    "name": "TestsCore",
+    "references": [
+        "GUID:6216f54339355ff47bc87c82bcdd0375"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
