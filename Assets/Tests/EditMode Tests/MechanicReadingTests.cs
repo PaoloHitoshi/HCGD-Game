@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
+﻿using NUnit.Framework;
 
 namespace Tests
 {
     public class MechanicReadingTests
     {
-        public class BaseTests
+        public class MechanicReaderTests
         {
             [Test]
             [TestCase("Quizz")]
@@ -46,8 +43,38 @@ namespace Tests
             }
         }
 
-        public class QuizzTests
+        public class QuizzMechanicTests
         {
+            public class Reading
+            {
+
+                [Test]
+                public void Non_Quizz_Game_Reading()
+                {
+                    // Prepare
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void Zero_Question_Quizz_Reading()
+                {
+
+                }
+
+                [Test]
+                public void One_Question_Quizz_Reading()
+                {
+
+                }
+
+                [Test]
+                public void Multiple_Question_Quizz_Reading()
+                {
+
+                }
+            }
+
         }
     }
 }
