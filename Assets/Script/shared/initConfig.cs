@@ -78,21 +78,26 @@ public class InitConfig : MonoBehaviour
 
     private void SetGameConfigurations(Response gameConfigurations)
     {
-        for (int i = 0; i < gameConfigurations.games.Length; i++)
+        foreach (var game in gameConfigurations.games)
         {
-            Debug.Log("init: " + gameConfigurations.games[i].name);
-            switch (gameConfigurations.games[i].mechanic_name)
+            if (!MechanicGameReader.IsMechanicAvailable(game))
+            {
+                Debug.LogWarning("Non available mechanic identified");
+                continue;
+            }
+
+            switch (game.mechanic_name)
             {
                 case "Quizz":
-                    Settings.quiz = gameConfigurations.games[i];
+                    Settings.quiz = game;
                     gameQuiz.SetActive(true);
                     break;
                 case "Puzzle":
-                    Settings.puzzle = gameConfigurations.games[i];
+                    Settings.puzzle = game;
                     gamePuzzle.SetActive(true);
                     break;
                 case "Collect":
-                    Settings.plataform = gameConfigurations.games[i];
+                    Settings.plataform = game;
                     gamePlataform.SetActive(true);
                     break;
             }
