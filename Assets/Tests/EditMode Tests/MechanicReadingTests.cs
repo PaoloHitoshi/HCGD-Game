@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace Tests
 {
@@ -52,25 +53,93 @@ namespace Tests
                 public void Non_Quizz_Game_Reading()
                 {
                     // Prepare
+                    Game game = new Game();
+                    QuizzMechanic quizz = new QuizzMechanic();
+                    
+                    game.mechanic_name = "Anything";
+
                     // Act
+                    TestDelegate testDelegate = () => quizz.Read(game);
+
                     // Assert
+                    Assert.Catch<ArgumentException>(testDelegate);
+                }
+
+                [Test]
+                public void Null_Components_Quizz_Reading()
+                {
+                    // Prepare
+                    Game game = new Game();
+                    QuizzMechanic quizz = new QuizzMechanic();
+
+                    game.mechanic_name = "Quizz";
+
+                    // Act
+                    TestDelegate testDelegate = () => quizz.Read(game);
+
+                    // Assert
+                    Assert.Catch<ArgumentNullException>(testDelegate);
                 }
 
                 [Test]
                 public void Zero_Question_Quizz_Reading()
                 {
+                    // Prepare
+                    Game game = new Game();
+                    QuizzMechanic quizz = new QuizzMechanic();
+
+                    game.mechanic_name = "Quizz";
+                    game.components = new Component[0];
+
+                    // Act
+                    TestDelegate testDelegate = () => quizz.Read(game);
+
+                    // Assert
+                    Assert.Catch<ArgumentOutOfRangeException>(testDelegate);
+                }
+
+                [Test]
+                public void One_Question_Quizz_Reading(string input_file_name)
+                {
+                    Assert.Fail();
+                }
+
+                [Test]
+                public void Multiple_Question_Quizz_Reading(string input_file_name)
+                {
+                    Assert.Fail();
 
                 }
 
                 [Test]
-                public void One_Question_Quizz_Reading()
+                public void Missing_Question_Content(string input_file_name)
                 {
+
+                    Assert.Fail();
+                }
+                
+                [Test]
+                public void Out_Of_Range_Answer(string input_file_name)
+                {
+                    Assert.Fail();
 
                 }
 
                 [Test]
-                public void Multiple_Question_Quizz_Reading()
+                public void Missing_Option(string input_file_name)
                 {
+                    Assert.Fail();
+
+                }
+
+                [Test]
+                [TestCase("_Qestione")]
+                [TestCase("_tag")]
+                [TestCase("")]
+                [TestCase(null)]
+                public void Unknown_Component(string component_tag)
+                {
+                    Assert.Fail();
 
                 }
             }

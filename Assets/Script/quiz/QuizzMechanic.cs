@@ -30,6 +30,8 @@ public class QuizzMechanic : IMechanic
     {
         if (!game.mechanic_name.Equals("Quizz"))
             throw new ArgumentException("Not a quizz game");
+        if (game.components == null)
+            throw new ArgumentNullException("No components were found");
 
         questions = new List<Question>();
         foreach (Component component in game.components)
@@ -41,8 +43,11 @@ public class QuizzMechanic : IMechanic
                 questions.Add(resultQuestion);
             }
             else
-                throw new ArgumentException($"Non existent component {component.tag} in quizz mechanic was found in game {game.name}");
+                throw new ArgumentException($"Unknown component {component.tag} in quizz mechanic was found in game {game.name}");
         }
+        
+        if (questions.Count <= 0)
+            throw new ArgumentOutOfRangeException("No questions were found");
 
         _idGame = game.id;
     }
