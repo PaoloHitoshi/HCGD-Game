@@ -80,16 +80,11 @@ public class InitConfig : MonoBehaviour
     {
         foreach (var game in gameConfigurations.games)
         {
-            if (!MechanicGameReader.IsMechanicAvailable(game))
-            {
-                Debug.LogWarning("Non available mechanic identified");
-                continue;
-            }
 
             switch (game.mechanic_name)
             {
                 case "Quizz":
-                    Settings.quiz = game;
+                    //Settings.quiz = game;
                     gameQuiz.SetActive(true);
                     break;
                 case "Puzzle":

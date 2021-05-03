@@ -4,5 +4,5 @@
     public static LoginWrapper login;
     public static Game plataform;
     public static Game puzzle;
-    public static Game quiz;
+    public static string selectedQuizJSON;
 }

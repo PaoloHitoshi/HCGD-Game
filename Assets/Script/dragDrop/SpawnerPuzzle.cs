@@ -59,30 +59,7 @@ public class SpawnerPuzzle : MonoBehaviour {
 	}
 
 	void Start() {
-		int index = 0;
-		Component[] componets = Settings.puzzle.components;
-		objects = new GameObject[componets.Length];
-		foreach(Component component in componets){
-			Debug.Log("Loading component: " + component.name);
-			foreach(ComponentField field in component.fields){
-				//createInstance(index);
-				Debug.Log("Loading resource: " + field.resource.score);
-				switch (field.type){
-					case "Texto": // Text
-						break;
-					case "Imagem": // Image
-						StartCoroutine(loadImage(index, field.resource.content));
-						break;
-					case "Áudio": // Sound
-						StartCoroutine(loadSound(index, field.resource.content));
-						break;
-					default:
-						Debug.Log("Resource type not defined:" + field.type);
-						break;
-                }
-                index++;
-            }
-		}
+		// Loads component resources
 	}
 	
 }

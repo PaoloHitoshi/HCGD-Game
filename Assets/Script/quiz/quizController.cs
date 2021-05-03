@@ -1,69 +1,60 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class quizController : MonoBehaviour 
+public class QuizController : MonoBehaviour 
 {
-	
 
 	[Header("UI References")]
-	[SerializeField] private Text txt_question;
-	[SerializeField] private Text txt_optionA;
-	[SerializeField] private Text txt_optionB;
-	[SerializeField] private Text txt_optionC;
-	[SerializeField] private Text txt_optionD;
+	[SerializeField] private Text questionText;
+	[SerializeField] private Text[] optionsText;
 	
-	[Header("Feedback prefab")]
+	[Header("Feedback Object")]
 	[SerializeField] private GameObject feedback;
 
-	private QuizzMechanic quizzMechanic;
+	private QuizGame quizGame;
 
- 	void Awake()
+ 	private void Awake()
 	{
-		quizzMechanic = new QuizzMechanic();
-		quizzMechanic.Read(Settings.quiz);
+		quizGame = new QuizGame();
+		quizGame.Read(Settings.selectedQuizJSON);
 	}
 
-    void Start () 
+    private void Start () 
 	{
 		feedback.SetActive(false);
-		quizzMechanic.NewGame();
+		quizGame.NewGame();
 
-		QuizzMechanic.Question current = quizzMechanic.CurrentQuestion;
-		txt_question.text = current.question;
-		txt_optionA.text = current.option1;
-		txt_optionB.text = current.option2;
-		txt_optionC.text = current.option3;
-		txt_optionD.text = current.option4;
+		SetQuestion(quizGame.CurrentQuestion);
 	}
 
 	public void AnswerQuestion(int option) 
 	{
-		quizzMechanic.TryAnswer(option);
+		quizGame.TryAnswer((char)option);
 		NextQuestion();
-	}
-	private void NextQuestion()
-	{
-		if (quizzMechanic.NextQuestion(out QuizzMechanic.Question question)) 
-		{
-			txt_question.text = question.question;
-			txt_optionA.text = string.IsNullOrEmpty(question.option1) ? "Nenhuma" : question.option1;
-			txt_optionB.text = string.IsNullOrEmpty(question.option2) ? "Nenhuma" : question.option2;
-			txt_optionC.text = string.IsNullOrEmpty(question.option3) ? "Nenhuma" : question.option3;
-			txt_optionD.text = string.IsNullOrEmpty(question.option4) ? "Nenhuma" : question.option4;
-		}
-		else 
-		{
-			feedback.SetActive(true);
-		}
 	}
 
 	public void SetFeelingRate(int stars)
 	{
-		quizzMechanic.SetFeelingRate(stars);
+		quizGame.SetFeelingRate(stars);
 
 		JsonUtils jsonUtils = (new GameObject("jsonUtils")).AddComponent<JsonUtils>();
-		jsonUtils.sendResponse(quizzMechanic.performance);
+		jsonUtils.sendResponse(quizGame.performance);
 	}
 
+	private void SetQuestion(QuizData.Question question)
+    {
+		questionText.text = question.QuestionText;
+		for (int i = 0; i <= optionsText.Length; i++)
+		{
+			optionsText[i].text = string.IsNullOrEmpty(question.OptionsText[i]) ? "Nenhuma" : question.OptionsText[i];
+		}
+	}
+	private void NextQuestion()
+	{
+		quizGame.NextQuestion(out QuizData.Question? question);
+		if (question.HasValue) 
+			SetQuestion(question.Value);
+		else 
+			feedback.SetActive(true);
+	}
 }

@@ -16,16 +16,7 @@ public class ControllerPuzzle : MonoBehaviour {
 		pieces = 0;
 		isCompleted = false;
 
-        foreach (var component in Settings.puzzle.components)
-        {
-            foreach (ComponentField field in component.fields)
-            {
-                if (field.type == "Imagem")
-                {
-                    totalPieces++;
-                }
-            }
-        }
+        // Count Total Pieces
 
         performance = new GameResult();
 		//set plataform id
