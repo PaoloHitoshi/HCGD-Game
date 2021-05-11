@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Text;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Networking;
+using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class Login : MonoBehaviour {
+public class Login : MonoBehaviour
+{
     private readonly string url = Endpoints.Login;
     public InputField username;
-	public InputField password;
-	public Text results;
+    public InputField password;
+    public Text results;
 
-	public void Submit() {
+    public void Submit()
+    {
         LoginRequest loginRequest = new LoginRequest
         {
             username = username.text.ToString(), //"monica";
@@ -21,7 +22,7 @@ public class Login : MonoBehaviour {
         };
 
         var json = JsonUtility.ToJson(loginRequest, prettyPrint: true);
-		StartCoroutine(Post(url, json));
+        StartCoroutine(Post(url, json));
     }
 
     private IEnumerator Post(string url, string bodyJsonString)
@@ -42,7 +43,7 @@ public class Login : MonoBehaviour {
                 {
                     float id = json["user"]["player_datas"][0]["id"].n;
                     Settings.userId = Convert.ToInt64(id);
-                    
+
                     SceneManager.LoadScene("menuPrincipal", LoadSceneMode.Single);
                 }
                 else

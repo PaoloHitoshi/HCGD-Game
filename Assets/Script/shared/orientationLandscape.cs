@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class OrientationLandscape : MonoBehaviour {
+public class OrientationLandscape : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		Screen.orientation = ScreenOrientation.LandscapeLeft;
-	}
+    // Use this for initialization
+    void Start()
+    {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+    }
 
 }

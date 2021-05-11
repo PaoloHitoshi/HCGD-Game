@@ -1,21 +1,21 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 
-public class SpawnerPuzzle : MonoBehaviour {
-	public GameObject prefab;
-	public GameObject prefabTarget;
-	private GameObject[] objects;
+public class SpawnerPuzzle : MonoBehaviour
+{
+    public GameObject prefab;
+    public GameObject prefabTarget;
+    private GameObject[] objects;
 
-	//private void createInstance(int index){
-	//	//TODO find another way to do this
-	//	GameObject newPrefab = Instantiate(prefab) as GameObject;
- //       objects[index] = newPrefab;
-	//}
+    //private void createInstance(int index){
+    //	//TODO find another way to do this
+    //	GameObject newPrefab = Instantiate(prefab) as GameObject;
+    //       objects[index] = newPrefab;
+    //}
 
-    private IEnumerator loadImage(int index, string url){
+    private IEnumerator loadImage(int index, string url)
+    {
         using (WWW www = new WWW(url))
         {
             yield return www;
@@ -39,27 +39,29 @@ public class SpawnerPuzzle : MonoBehaviour {
             //Initial image (draggable)
             //GameObject newPrefab = Instantiate(prefab) as GameObject;
             GameObject newPrefab = Instantiate(prefab) as GameObject;
-            newPrefab.transform.position = new Vector2(Random.Range(-425, Random.Range(10,30) + (index * (texture.width / 2))), 243);
+            newPrefab.transform.position = new Vector2(Random.Range(-425, Random.Range(10, 30) + (index * (texture.width / 2))), 243);
             newPrefab.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
             newPrefab.GetComponent<Image>().sprite = spriteToUse;
             newPrefab.name = "obj" + index.ToString();
             objects[index] = newPrefab;
         }
-	}
+    }
 
-	private IEnumerator loadSound(int index, string url){
-		WWW www = new WWW(url);
-		yield return www;
+    private IEnumerator loadSound(int index, string url)
+    {
+        WWW www = new WWW(url);
+        yield return www;
 
-		AudioClip wwwsound =  www.GetAudioClip(true,true);
-		objects[index].GetComponent<Collectable>().sound = wwwsound;
-		Debug.Log("Sound added");
-		www.Dispose ();
-		www = null;
-	}
+        AudioClip wwwsound = www.GetAudioClip(true, true);
+        objects[index].GetComponent<Collectable>().sound = wwwsound;
+        Debug.Log("Sound added");
+        www.Dispose();
+        www = null;
+    }
 
-	void Start() {
-		// Loads component resources
-	}
-	
+    void Start()
+    {
+        // Loads component resources
+    }
+
 }

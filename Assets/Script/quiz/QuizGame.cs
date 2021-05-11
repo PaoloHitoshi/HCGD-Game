@@ -1,10 +1,8 @@
-﻿using System;
-
-public class QuizGame
+﻿public class QuizGame
 {
     public QuizData quizData;
     public QuizData.Question CurrentQuestion => quizData.questions[idQuestion];
-    
+
     private int idQuestion;
     public GameResult performance;
 
@@ -50,7 +48,7 @@ public class QuizGame
         }
         return false;
     }
-    
+
     /// <summary>
     /// Advances to the next question
     /// </summary>
@@ -65,7 +63,7 @@ public class QuizGame
         else
             question = CurrentQuestion;
     }
-    
+
     /// <summary>
     /// Sets performance score and feeling rate
     /// </summary>

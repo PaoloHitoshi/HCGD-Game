@@ -1,30 +1,29 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.IO;
+using UnityEngine.UI;
 
-public class InitConfig : MonoBehaviour 
+public class InitConfig : MonoBehaviour
 {
-	public Text log;
+    public Text log;
     public GameObject gameQuiz;
-	public GameObject gamePuzzle;
-	public GameObject gamePlataform;
+    public GameObject gamePuzzle;
+    public GameObject gamePlataform;
 
-	void Start () 
+    void Start()
     {
-		gameQuiz.SetActive(false);
-		gamePuzzle.SetActive(false);
-		gamePlataform.SetActive(false);
-		string url = $"{Endpoints.PlayerGames}{Settings.userId}";
+        gameQuiz.SetActive(false);
+        gamePuzzle.SetActive(false);
+        gamePlataform.SetActive(false);
+        string url = $"{Endpoints.PlayerGames}{Settings.userId}";
 #if LOCALTEST
         GetPlayerGamesLocal();
 #else
         StartCoroutine(GetPlayerGames(url));
 #endif
-	}
+    }
 
-	IEnumerator GetPlayerGames(string url) 
+    IEnumerator GetPlayerGames(string url)
     {
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(url))
         {
@@ -70,7 +69,7 @@ public class InitConfig : MonoBehaviour
     {
         log.text = "Teste local";
         GamesParser parser = Resources.Load<GamesParser>("Quizz Json Parser");
-        
+
         Response gameConfigurations = new Response(parser.games);
         SetGameConfigurations(gameConfigurations);
     }

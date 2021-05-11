@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class OrientationPortrait : MonoBehaviour {
+public class OrientationPortrait : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		Screen.orientation = ScreenOrientation.Portrait;
-	}
+    // Use this for initialization
+    void Start()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
+    }
 
 }
