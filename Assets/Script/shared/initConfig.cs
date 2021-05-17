@@ -15,7 +15,7 @@ public class InitConfig : MonoBehaviour
         gameQuiz.SetActive(false);
         gamePuzzle.SetActive(false);
         gamePlataform.SetActive(false);
-        string url = $"{Endpoints.PlayerGames}{Settings.userId}";
+        string url = "";//$"{Endpoints.PlayerGames}{Settings.userId}";
 #if LOCALTEST
         GetPlayerGamesLocal();
 #else

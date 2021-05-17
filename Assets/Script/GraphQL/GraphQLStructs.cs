@@ -17,6 +17,7 @@
         public T data;
     }
 
+    [System.Serializable]
     public struct AuthorizedResponse<T>
     {
         public Me data;

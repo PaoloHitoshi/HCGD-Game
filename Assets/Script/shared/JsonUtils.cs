@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class JsonUtils : MonoBehaviour
 {
-    private string url = Endpoints.GameSession;
+    private string url = "";//Endpoints.GameSession;
 
     public void sendResponse(GameResult performance)
     {
