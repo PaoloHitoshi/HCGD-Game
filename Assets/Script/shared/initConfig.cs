@@ -17,9 +17,9 @@ public class InitConfig : MonoBehaviour
         gamePlataform.SetActive(false);
         string url = "";//$"{Endpoints.PlayerGames}{Settings.userId}";
 #if LOCALTEST
-        GetPlayerGamesLocal();
+        //GetPlayerGamesLocal();
 #else
-        StartCoroutine(GetPlayerGames(url));
+        //StartCoroutine(GetPlayerGames(url));
 #endif
     }
 

@@ -24,6 +24,9 @@ public class LoginHandler : MonoBehaviour
     {
         log.text = string.Empty;
         waitingScreen.SetActive(false);
+#if LOCALTEST
+        StartCoroutine(Login("admin@rufus.com", "123456"));
+#endif
     }
 
     public void Submit()

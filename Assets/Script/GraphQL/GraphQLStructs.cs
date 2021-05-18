@@ -29,4 +29,7 @@
         }
 
     }
+
+    [System.Serializable]
+    public struct EmptyVariables { }
 }

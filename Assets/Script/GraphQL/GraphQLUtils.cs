@@ -27,7 +27,7 @@ namespace GraphQL
             return response.data;
         }
 
-        public static async Task<P> HttpAuthQuery<Q, P>(string url, string query, Q variables, string authtoken)
+        public static async Task<JSONObject> HttpAuthQuery<Q>(string url, string query, Q variables, string authtoken)
         {
             Query<Q> queryObj = new Query<Q>(query, variables);
 
@@ -43,9 +43,9 @@ namespace GraphQL
             string responseContent = await result.Content.ReadAsStringAsync();
             
             Debug.Log(nameof(responseContent) + ":\n" + responseContent);
-            AuthorizedResponse<P> response = JsonUtility.FromJson<AuthorizedResponse<P>>(responseContent);
-
-            return response.data.me;
+            JSONObject response = JSONObject.Create(responseContent);
+            
+            return response["data"]["me"];
         }
 
         public static string ReadFromFile(string filepath)
