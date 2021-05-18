@@ -4,10 +4,15 @@ using System.Collections;
 using UnityEngine.Events;
 using System;
 
+[System.Serializable]
+public class GamesArrayEvent : UnityEvent<QuizQL.GameDataContainer[]> { }
+
 public class GamesQueryController : MonoBehaviour
 {
     public UnityEvent OnQueryBegin;
     public UnityEvent OnQueryEnd;
+
+    public GamesArrayEvent OnSuccess;
 
     public void GetQuizGames()
     {
@@ -21,10 +26,12 @@ public class GamesQueryController : MonoBehaviour
         var request = QuizQL.HttpQuizGames(Endpoints.url, LoginQL.Token);
         yield return new WaitUntil(()=>request.IsCompleted);
 
-        
-        try
+        QuizQL.QuizGameData[] response = request.Result;
+        OnSuccess.Invoke(response);
+        /*try
         {
             QuizQL.QuizGameData[] response = request.Result;
+            OnSuccess.Invoke(response);
         }
         catch (Exception e)
         {
@@ -33,8 +40,14 @@ public class GamesQueryController : MonoBehaviour
                 Debug.Log(e.Message);
                 e = e.InnerException;
             }
-        }
+        }*/
 
         OnQueryEnd.Invoke();
+    }
+
+    public void PrintGamesNames(QuizQL.GameDataContainer[] games)
+    {
+        foreach (var game in games)
+            Debug.Log(game.name);
     }
 }

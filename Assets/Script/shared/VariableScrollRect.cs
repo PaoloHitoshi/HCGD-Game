@@ -6,20 +6,15 @@ public class VariableScrollRect : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab = default;
     
-    private ScrollRect _scrollRect;
-    private RectTransform _content;
+    [SerializeField] private ScrollRect _scrollRect;
+    [SerializeField] private RectTransform _content;
 
-
-    private void Awake()
+    public GameObject SpawnItem(GameObject item)
     {
-        _scrollRect = GetComponent<ScrollRect>();
-        _content = _scrollRect.content;
-    }
+        if(_content == null)
+            _content = _scrollRect.content;
 
-    public void SpawnItem(GameObject item)
-    {
-
-        Instantiate(item, _scrollRect.content.transform);
+        GameObject instance = Instantiate(item, _scrollRect.content.transform);
 
         if(_content.TryGetComponent<GridLayoutGroup>(out var grid))
         {
@@ -29,6 +24,7 @@ public class VariableScrollRect : MonoBehaviour
             _content.sizeDelta = new Vector2(_scrollRect.content.sizeDelta.x, rowCount * Yoffset);
         }
 
+        return instance;
     }
     
     [ContextMenu("SpawnItem")]

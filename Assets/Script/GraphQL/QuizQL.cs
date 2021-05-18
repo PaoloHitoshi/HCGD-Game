@@ -37,11 +37,14 @@ namespace GraphQL
         {
             public MechanicType[] Games;
         }
-
         [System.Serializable]
-        public class QuizGameData
+        public abstract class GameDataContainer 
         {
             public string name;
+        }
+        [System.Serializable]
+        public class QuizGameData : GameDataContainer
+        {
             public Question[] Questions;
 
             [System.Serializable]
