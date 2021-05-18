@@ -1,18 +1,14 @@
 ﻿public class QuizGame
 {
     public QuizData quizData;
-    public QuizData.Question CurrentQuestion => quizData.questions[idQuestion];
+    public QuizData.Question CurrentQuestion => quizData.Questions[idQuestion];
 
     private int idQuestion;
     public GameResult performance;
 
-    /// <summary>
-    /// Reads game json and converts to quiz.
-    /// </summary>
-    /// <param name="gameJson"></param>
-    public void Read(string gameJson)
+    public void Read(QuizDataSO dataSO)
     {
-        quizData = new QuizData(gameJson);
+        quizData = dataSO.Data;
     }
 
     /// <summary>
@@ -21,7 +17,7 @@
     public void NewGame()
     {
         performance = new GameResult();
-        performance.game = quizData.idGame;
+        //performance.game = quizData.idGame;
         performance.hits = 0;
         performance.fails = 0;
         idQuestion = 0;
@@ -34,10 +30,10 @@
     /// <returns>True if option is correct</returns>
     public bool TryAnswer(char option)
     {
-        if (idQuestion >= quizData.questions.Length)
+        if (idQuestion >= quizData.Questions.Length)
             return false;
 
-        if (option == CurrentQuestion.AnswerIndex)
+        if (CurrentQuestion.Options[(int)option].isAnswer)
         {
             performance.hits++;
             return true;
@@ -58,7 +54,7 @@
     {
         idQuestion++;
 
-        if (idQuestion >= quizData.questions.Length)
+        if (idQuestion >= quizData.Questions.Length)
             question = null;
         else
             question = CurrentQuestion;

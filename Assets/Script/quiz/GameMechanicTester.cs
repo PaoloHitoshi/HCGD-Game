@@ -16,6 +16,6 @@ public class GameMechanicTester : MonoBehaviour
     {
         string json = System.IO.File.ReadAllText("Assets/Debug/Quizz.json");
         Settings.selectedQuizJSON = json;
-        quizz = new QuizData(json);
+        //quizz = new QuizData(json);
     }
 }

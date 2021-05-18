@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using System;
 
 [System.Serializable]
-public class GamesArrayEvent : UnityEvent<QuizQL.GameDataContainer[]> { }
+public class GamesArrayEvent : UnityEvent<GameDataContainer[]> { }
 
 public class GamesQueryController : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class GamesQueryController : MonoBehaviour
         var request = QuizQL.HttpQuizGames(Endpoints.url, LoginQL.Token);
         yield return new WaitUntil(()=>request.IsCompleted);
 
-        QuizQL.QuizGameData[] response = request.Result;
+        QuizData[] response = request.Result;
         OnSuccess.Invoke(response);
         /*try
         {
@@ -45,7 +45,7 @@ public class GamesQueryController : MonoBehaviour
         OnQueryEnd.Invoke();
     }
 
-    public void PrintGamesNames(QuizQL.GameDataContainer[] games)
+    public void PrintGamesNames(GameDataContainer[] games)
     {
         foreach (var game in games)
             Debug.Log(game.name);

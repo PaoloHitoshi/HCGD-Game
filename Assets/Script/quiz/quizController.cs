@@ -8,15 +8,18 @@ public class QuizController : MonoBehaviour
     [SerializeField] private Text questionText;
     [SerializeField] private Text[] optionsText;
 
+    [Header("SO References")]
+    [SerializeField] private QuizDataSO quizDataSO;
+
     [Header("Feedback Object")]
     [SerializeField] private GameObject feedback;
-
+    
     private QuizGame quizGame;
 
     private void Awake()
     {
         quizGame = new QuizGame();
-        quizGame.Read(Settings.selectedQuizJSON);
+        quizGame.Read(quizDataSO);
     }
 
     private void Start()
@@ -44,9 +47,11 @@ public class QuizController : MonoBehaviour
     private void SetQuestion(QuizData.Question question)
     {
         questionText.text = question.QuestionText;
-        for (int i = 0; i <= optionsText.Length; i++)
+        for (int i = 0; i < optionsText.Length; i++)
         {
-            optionsText[i].text = string.IsNullOrEmpty(question.OptionsText[i]) ? "Nenhuma" : question.OptionsText[i];
+            optionsText[i].text = "Nenhuma";
+            if (question.Options.Length > i && !string.IsNullOrEmpty(question.Options[i].text))
+                optionsText[i].text = question.Options[i].text;
         }
     }
     private void NextQuestion()

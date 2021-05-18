@@ -3,14 +3,17 @@
 public class GameListUI : MonoBehaviour
 {
     [SerializeField] private GameObject btnPrefab;
-    [SerializeField] private VariableScrollRect _scrollRectObj = null;
+    [SerializeField] private VariableScrollRect scrollRectObj = null;
+    [SerializeField] private QuizDataSO activeQuizGame;
 
-    public void PopulateGamesList(GraphQL.QuizQL.GameDataContainer[] games)
+    public void PopulateGamesList(GameDataContainer[] games)
     {
         foreach(var game in games)
         {
-            GameObject instance = _scrollRectObj.SpawnItem(btnPrefab);
-            instance.GetComponentInChildren<UnityEngine.UI.Text>().text = game.name;
+            SelectableGame instance = scrollRectObj.SpawnItem(btnPrefab).GetComponent<SelectableGame>();
+            instance.SetText(game.name);
+            instance.SetGame(game as QuizData, activeQuizGame);
+            instance.SetDestination("quiz");
         }
     }
 }
