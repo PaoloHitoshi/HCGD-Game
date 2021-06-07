@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class QuizController : MonoBehaviour
 {
 
     [Header("UI References")]
-    [SerializeField] private Text questionText;
-    [SerializeField] private Text[] optionsText;
+    [SerializeField] private TextMeshProUGUI questionText;
+    [SerializeField] private TextMeshProUGUI[] optionsText;
 
     [Header("SO References")]
     [SerializeField] private QuizDataSO quizDataSO;
@@ -46,12 +46,12 @@ public class QuizController : MonoBehaviour
 
     private void SetQuestion(QuizData.Question question)
     {
-        questionText.text = question.QuestionText;
+        questionText.SetText(question.QuestionText);
         for (int i = 0; i < optionsText.Length; i++)
         {
             optionsText[i].text = "Nenhuma";
             if (question.Options.Length > i && !string.IsNullOrEmpty(question.Options[i].text))
-                optionsText[i].text = question.Options[i].text;
+                optionsText[i].SetText(question.Options[i].text);
         }
     }
     private void NextQuestion()
