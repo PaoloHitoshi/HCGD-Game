@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+
+//TODO: Remove
 public class JsonUtils : MonoBehaviour
 {
     private string url = "";//Endpoints.GameSession;

@@ -1,4 +1,5 @@
-﻿public static class Settings
+﻿// TODO: Remove
+public static class Settings
 {
     public static long userId;
     public static LoginWrapper login;

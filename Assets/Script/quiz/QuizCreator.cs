@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class GameMechanicTester : MonoBehaviour
+//TODO: Transform into custom editor window
+public class QuizCreator : MonoBehaviour
 {
     [SerializeField] private QuizData quizz;
 

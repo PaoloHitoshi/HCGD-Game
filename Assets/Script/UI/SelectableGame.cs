@@ -1,5 +1,4 @@
-﻿using GraphQL;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 

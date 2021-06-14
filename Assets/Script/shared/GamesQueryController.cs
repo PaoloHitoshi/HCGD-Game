@@ -48,6 +48,6 @@ public class GamesQueryController : MonoBehaviour
     public void PrintGamesNames(GameDataContainer[] games)
     {
         foreach (var game in games)
-            Debug.Log(game.name);
+            Debug.Log(game.Name);
     }
 }

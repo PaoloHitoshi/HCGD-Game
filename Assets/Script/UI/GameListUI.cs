@@ -11,7 +11,7 @@ public class GameListUI : MonoBehaviour
         foreach(var game in games)
         {
             SelectableGame instance = scrollRectObj.SpawnItem(btnPrefab).GetComponent<SelectableGame>();
-            instance.SetText(game.name);
+            instance.SetText(game.Name);
             instance.SetGame(game as QuizData, activeQuizGame);
             instance.SetDestination("quiz");
         }

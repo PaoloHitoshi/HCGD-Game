@@ -15,5 +15,6 @@ public class QuizData : GameDataContainer
             public bool isAnswer;
             public string text;
         }
+
     }
 }

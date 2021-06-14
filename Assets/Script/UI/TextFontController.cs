@@ -6,6 +6,13 @@ public class TextFontController : MonoBehaviour
     [SerializeField] private TMP_FontAsset cursive_font;
     [SerializeField] private TMP_FontAsset stick_font;
 
+    [SerializeField] private QuizDataSO quizData;
+
+    private void Start()
+    {
+        UpdateFonts(quizData.Data.FontStyle);
+    }
+
     [ContextMenu("Update Font to stick")]
     public void UpdateFontToStick()
     {

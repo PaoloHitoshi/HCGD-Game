@@ -11,9 +11,9 @@ public class QuizController : MonoBehaviour
     [Header("SO References")]
     [SerializeField] private QuizDataSO quizDataSO;
 
-    [Header("Feedback Object")]
+    [Header("Feedback")]
     [SerializeField] private GameObject feedback;
-    
+
     private QuizGame quizGame;
 
     private void Awake()

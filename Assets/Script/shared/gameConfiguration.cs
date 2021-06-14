@@ -1,12 +1,4 @@
-﻿
-[System.Serializable]
-public class LoginRequest
-{
-    public string username;
-    public string password;
-}
-
-[System.Serializable]
+﻿[System.Serializable]
 public class User
 {
     public long id;
