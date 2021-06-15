@@ -19,19 +19,30 @@ public class LoginHandler : MonoBehaviour
     [Header("User Feedback")]
     [SerializeField] private GameObject waitingScreen;
     [SerializeField] private Text log;
+    [Space(5)]
+    [SerializeField] private string connectionErrorMsg = "Ocorreu um erro, por favor tente novamente";
+    [SerializeField] private string invalidCredentialsMsg = "Usuario ou senha incorretos";
+    [SerializeField] private string invalidEmailFormatMsg = "Formato de email invalido para usuario";
+    [SerializeField] private string incompleteInput = "Por favor insira seu usuario e senha";
+    
 
     private void Awake()
     {
         log.text = string.Empty;
         waitingScreen.SetActive(false);
 #if LOCALTEST
-        StartCoroutine(Login("admin@rufus.com", "123456"));
+        //StartCoroutine(Login("admin@rufus.com", "123456"));
 #endif
     }
 
     public void Submit()
     {
-        StartCoroutine(Login(username.text.ToString(), password.text.ToString()));   
+        log.text = string.Empty;
+
+        if (string.IsNullOrEmpty(username.text) || string.IsNullOrEmpty(password.text))
+            log.text = incompleteInput;
+        else
+            StartCoroutine(Login(username.text.ToString(), password.text.ToString()));   
     }
 
     private IEnumerator Login(string username, string password)
@@ -41,18 +52,34 @@ public class LoginHandler : MonoBehaviour
         
         yield return new WaitWhile(()=>!loginQuery.IsCompleted);
 
-        LoginQL.LoginPayload payload = loginQuery.Result;
-        if (string.IsNullOrEmpty(payload.login.token))
+        if(loginQuery.IsFaulted || loginQuery.IsCanceled)
         {
-            log.text = payload.login.error?[0];
+            log.text = connectionErrorMsg;
         }
         else
         {
-            LoginQL.Token = payload.login.token;
-            SceneManager.LoadScene("menuPrincipal", LoadSceneMode.Single);
+            LoginQL.LoginPayload payload = loginQuery.Result;
+            if (string.IsNullOrEmpty(payload.login.token))
+            {
+                if (payload.login.error != null && payload.login.error[0].Contains("invalid")) 
+                {
+                    log.text = invalidCredentialsMsg;
+                }
+                else
+                {
+                    if (!WebUtils.IsValidEmail(username))
+                    {
+                        log.text = invalidEmailFormatMsg;
+                    }
+                }
+            }
+            else
+            {
+                LoginQL.Token = payload.login.token;
+                SceneManager.LoadScene("menuPrincipal", LoadSceneMode.Single);
+            }
         }
 
-        Debug.Log(JsonUtility.ToJson(payload));
         waitingScreen.SetActive(false);
     }
 }
