@@ -29,11 +29,23 @@ public class TextFontController : MonoBehaviour
     {
         TextMeshProUGUI[] textMeshes = FindObjectsOfType<TextMeshProUGUI>();
 
-        TMP_FontAsset chosenFont = cursive ? cursive_font : stick_font;
+        TMP_FontAsset chosenFont;
+        FontStyles fontStyles;
+        if (cursive)
+        {
+            chosenFont = cursive_font;
+            fontStyles = FontStyles.LowerCase;
+        }
+        else
+        {
+            chosenFont = stick_font;
+            fontStyles = FontStyles.UpperCase;
+        }
         
         foreach(var textMesh in textMeshes)
         {
             textMesh.font = chosenFont;
+            textMesh.fontStyle = fontStyles;
         }
     }
 
