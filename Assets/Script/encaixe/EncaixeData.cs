@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-class EncaixeData : GameDataContainer
+public class EncaixeData : GameDataContainer
 {
     public Piece[] pieces;
 
