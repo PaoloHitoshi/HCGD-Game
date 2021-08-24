@@ -3,51 +3,43 @@ using GraphQL;
 using System.Collections;
 using UnityEngine.Events;
 using System;
-
-[System.Serializable]
-public class GamesArrayEvent : UnityEvent<GameDataContainer[]> { }
+using System.Collections.Generic;
 
 public class GamesQueryController : MonoBehaviour
 {
     public UnityEvent OnQueryBegin;
     public UnityEvent OnQueryEnd;
 
-    public GamesArrayEvent OnSuccess;
+    [SerializeField] private GameListUI gameListUI;
 
     public void GetQuizGames()
     {
-        StartCoroutine(GetQuizGamesAsync());
+        StartCoroutine(GetSessionsAsync
+        (
+            GetSessionOfQL.quizQuery, 
+            (sessions) => gameListUI.PopulateGamesList(sessions, "quiz")
+        ));
     }
 
-    public IEnumerator GetQuizGamesAsync()
+    public void GetEncaixeGames()
+    {
+        StartCoroutine(GetSessionsAsync
+        (
+            GetSessionOfQL.encaixeQuery, 
+            (sessions) => gameListUI.PopulateGamesList(sessions, "encaixe"))
+        );
+    }
+
+    private IEnumerator GetSessionsAsync(string query, Action<string> OnSuccess)
     {
         OnQueryBegin.Invoke();
 
-        var request = QuizQL.HttpQuizGames(Endpoints.url, LoginQL.Token);
+        var request = GetSessionOfQL.HttpGames(Endpoints.url, LoginQL.Token, query);
         yield return new WaitUntil(()=>request.IsCompleted);
 
-        QuizData[] response = request.Result;
+        string response = request.Result;
         OnSuccess.Invoke(response);
-        /*try
-        {
-            QuizQL.QuizGameData[] response = request.Result;
-            OnSuccess.Invoke(response);
-        }
-        catch (Exception e)
-        {
-            while (e != null)
-            {
-                Debug.Log(e.Message);
-                e = e.InnerException;
-            }
-        }*/
 
         OnQueryEnd.Invoke();
-    }
-
-    public void PrintGamesNames(GameDataContainer[] games)
-    {
-        foreach (var game in games)
-            Debug.Log(game.Name);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class EncaixeController : MonoBehaviour
 {
-    [SerializeField] private EncaixeDataSO encaixeData;
+    [SerializeField] private EncaixeData encaixeData;
     [SerializeField] private GameObject piecePrefab;
     [SerializeField] private GameObject pieceSlotPrefab;
     [SerializeField] private Canvas canvas;
@@ -12,11 +12,24 @@ public class EncaixeController : MonoBehaviour
     private DraggablePiece[] pieces;
     private PieceSlot[] pieceSlots;
 
+    private void Awake()
+    {
+        SetCurrentEncaixe();   
+    }
+
+    private void SetCurrentEncaixe()
+    {
+        if (CurrentGameSession.TryGetGameOf("encaixe", out EncaixeData gameData))
+        {
+            encaixeData = gameData;
+        }
+    }
+
     [ContextMenu("Spawn Pieces")]
     private void SpawnPieces()
     {
-        var numPieces = encaixeData.Data.pieces.Length;
-        var piecesInfo = encaixeData.Data.pieces;
+        var numPieces = encaixeData.pieces.Length;
+        var piecesInfo = encaixeData.pieces;
         pieces = new DraggablePiece[numPieces];
         pieceSlots = new PieceSlot[numPieces];
 

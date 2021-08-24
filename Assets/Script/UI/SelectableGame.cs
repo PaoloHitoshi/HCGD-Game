@@ -4,23 +4,23 @@ using UnityEngine.SceneManagement;
 
 public class SelectableGame : MonoBehaviour
 {
-    private QuizDataSO _data;
-    private QuizData _gameData;
+    private string _genre;
+    private string _gameJson;
 
     public void SetText(string text)
     {
         GetComponentInChildren<Text>().text = text;
     }
 
-    public void SetGame(QuizData gameData, QuizDataSO dataSO)
+    public void SetGame(string genre, string gameJson)
     {
-        _data = dataSO;
-        _gameData = gameData;
+        _genre = genre;
+        _gameJson = gameJson;
     }
 
     public void SelectGame()
     {
-        _data.Data = _gameData;
+        CurrentGameSession.Set(_genre, _gameJson);
     }
 
     public void SetDestination(string sceneName)

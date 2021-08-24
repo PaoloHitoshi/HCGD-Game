@@ -4,17 +4,21 @@ using UnityEngine.UI;
 
 public class BackgroundLoad : MonoBehaviour
 {
-    [SerializeField] private QuizDataSO quizData;
+    [SerializeField] private string genre;
 
     private void Start()
     {
-        if (string.IsNullOrEmpty(quizData.Data.BackgroundUrl)) return;
-        StartCoroutine(ChangeTexture());
+        if(CurrentGameSession.TryGetGameOf(genre, out GameDataContainer gameData))
+        {
+            if (string.IsNullOrEmpty(gameData.BackgroundUrl)) return;
+
+            StartCoroutine(ChangeTexture(gameData.BackgroundUrl));
+        }
     }
 
-    private IEnumerator ChangeTexture()
+    private IEnumerator ChangeTexture(string url)
     {
-        StartCoroutine(WebUtils.GetTexture(quizData.Data.BackgroundUrl));
+        StartCoroutine(WebUtils.GetTexture(url));
 
         yield return new WaitUntil(()=>WebUtils.fetchedTexture != null);
 

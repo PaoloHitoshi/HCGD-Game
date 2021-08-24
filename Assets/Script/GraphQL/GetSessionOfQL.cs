@@ -5,11 +5,9 @@ using System.Collections.Generic;
 
 namespace GraphQL
 {
-    public static partial class QuizQL
+    public static partial class GetSessionOfQL
     {
-        public static async Task<QuizData[]> HttpQuizGames(string url, string token)
-        {
-            string query = @"{
+        public const string quizQuery = @"{
                               me
                               {
                                 Organization
@@ -49,23 +47,30 @@ namespace GraphQL
                                 }
                               }
                             }";
+
+        public const string encaixeQuery = "";
+
+        public static async Task<string> HttpGames(string url, string token, string query)
+        {
             JSONObject response = await GraphQLUtils.HttpAuthQuery(url, query, new EmptyVariables(), token);
-            
             JSONObject sessions = response["Organization"]["Sessions"];
 
-            List<QuizData> Games = new List<QuizData>();
+            return sessions.ToString();
+        }
+
+        /*private static List<Genre> ExtractGameFromSession<Genre>(JSONObject sessions)
+        {
+            List<Genre> Games = new();
             sessions.list.ForEach((p) =>
             {
-                var session = JsonUtility.FromJson<Session<QuizData>>(p.ToString());
+                var session = JsonUtility.FromJson<Session<Genre>>(p.ToString());
                 var game = session.Game;
 
-                game.Feedback = session.Parameters.First((_) => _.Type == nameof(game.Feedback)).content;
-                game.FontStyle = session.Parameters.First((_) => _.Type == nameof(game.FontStyle)).active;
+                game.Feedback = session.Parameters.First((_) => _.Type == nameof(GameDataContainer.Feedback)).content;
+                game.FontStyle = session.Parameters.First((_) => _.Type == nameof(GameDataContainer.FontStyle)).active;
 
                 Games.Add(game);
             });
-
-            return Games.ToArray();
-        }
+        }*/
     }
 }

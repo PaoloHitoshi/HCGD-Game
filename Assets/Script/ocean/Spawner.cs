@@ -67,7 +67,7 @@ public class Spawner : MonoBehaviour
 
     void Awake()
     {
-        Component[] componets = Settings.plataform.components;
+        Component[] componets = new Component[0];//Settings.plataform.components;
         collectables = new GameObject[componets.Length];
         int index = 0;
         foreach (Component component in componets)

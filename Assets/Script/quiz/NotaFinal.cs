@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class NotalFinal : MonoBehaviour
+public class NotaFinal : MonoBehaviour
 {
 
     private int idTema;

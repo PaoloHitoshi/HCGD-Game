@@ -8,9 +8,6 @@ public class QuizController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questionText;
     [SerializeField] private TextMeshProUGUI[] optionsText;
 
-    [Header("SO References")]
-    [SerializeField] private QuizDataSO quizDataSO;
-
     [Header("Feedback")]
     [SerializeField] private GameObject feedback;
 
@@ -18,8 +15,16 @@ public class QuizController : MonoBehaviour
 
     private void Awake()
     {
-        quizGame = new QuizGame();
-        quizGame.Read(quizDataSO);
+        SetCurrentQuiz();
+    }
+
+    private void SetCurrentQuiz()
+    {
+        if (CurrentGameSession.TryGetGameOf("quiz", out QuizData gameData))
+        {
+            quizGame = new QuizGame();
+            quizGame.Read(gameData);
+        }
     }
 
     private void Start()
@@ -41,7 +46,7 @@ public class QuizController : MonoBehaviour
         quizGame.SetFeelingRate(stars);
 
         JsonUtils jsonUtils = (new GameObject("jsonUtils")).AddComponent<JsonUtils>();
-        jsonUtils.sendResponse(quizGame.performance);
+        jsonUtils.sendResponse(quizGame.Performance);
     }
 
     private void SetQuestion(QuizData.Question question)

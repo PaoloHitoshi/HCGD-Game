@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public abstract class GameDataContainer 
+public class GameDataContainer 
 {
     public string Name;
     public string BackgroundUrl;

@@ -3,14 +3,17 @@ using TMPro;
 
 public class TextFontController : MonoBehaviour
 {
+    [SerializeField] private string genre;
+    
     [SerializeField] private TMP_FontAsset cursive_font;
     [SerializeField] private TMP_FontAsset stick_font;
 
-    [SerializeField] private QuizDataSO quizData;
-
     private void Start()
     {
-        UpdateFonts(quizData.Data.FontStyle);
+        if(CurrentGameSession.TryGetGameOf(genre, out GameDataContainer gameData))
+        {
+            UpdateFonts(gameData.FontStyle);
+        }
     }
 
     [ContextMenu("Update Font to stick")]

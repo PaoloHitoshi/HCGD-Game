@@ -12,7 +12,7 @@ public class JsonUtils : MonoBehaviour
 
     public void sendResponse(GameResult performance)
     {
-        performance.player = Settings.userId;
+        //performance.player = Settings.userId;
         string resp = JsonUtility.ToJson(performance, true);
         Debug.Log(resp);
         StartCoroutine(Post(url, resp));
