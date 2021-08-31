@@ -9,7 +9,7 @@ public class QuizController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] optionsText;
 
     [Header("Feedback")]
-    [SerializeField] private GameObject feedback;
+    [SerializeField] private FeedbackUI feedbackUI;
 
     private QuizGame quizGame;
 
@@ -29,7 +29,6 @@ public class QuizController : MonoBehaviour
 
     private void Start()
     {
-        feedback.SetActive(false);
         quizGame.NewGame();
 
         SetQuestion(quizGame.CurrentQuestion);
@@ -65,6 +64,6 @@ public class QuizController : MonoBehaviour
         if (question.HasValue)
             SetQuestion(question.Value);
         else
-            feedback.SetActive(true);
+            feedbackUI.Open();
     }
 }

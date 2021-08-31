@@ -3,7 +3,6 @@ using GraphQL;
 using System.Collections;
 using UnityEngine.Events;
 using System;
-using System.Collections.Generic;
 
 public class GamesQueryController : MonoBehaviour
 {

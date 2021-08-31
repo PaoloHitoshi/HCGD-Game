@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class CurrentGameSession
 {
-    private static Dictionary<string, string> _currentGameSessions = new Dictionary<string, string>();
+    private static readonly Dictionary<string, string> _currentGameSessions = new Dictionary<string, string>();
 
     public static void Set(string genre, string gameSessionJson)
     {

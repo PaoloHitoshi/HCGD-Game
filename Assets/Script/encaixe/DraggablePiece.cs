@@ -10,12 +10,14 @@ public class DraggablePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     [SerializeField] private RawImage image;
 
     private Vector3 _initialPosition;
+    private bool _canBeDragged;
     private RectTransform _rectTransform;
     private Action _onDrop;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+        _canBeDragged = false;
     }
 
     public void Setup(int index, Texture2D texture, Action onDrop)
@@ -28,10 +30,18 @@ public class DraggablePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         Id = index;
         image.texture = texture;
+        _canBeDragged = true;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!_canBeDragged)
+        {
+            eventData.pointerDrag = null;
+            eventData.dragging = false;
+            return;
+        }
+
         image.raycastTarget = false;
         _initialPosition = transform.position;
     }
@@ -42,7 +52,7 @@ public class DraggablePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
 
     public void OnEndDrag(PointerEventData eventData)
-    {
+    {   
         image.raycastTarget = true;
         transform.position = _initialPosition;
     }
