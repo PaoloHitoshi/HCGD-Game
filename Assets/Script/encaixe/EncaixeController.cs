@@ -56,20 +56,75 @@ public class EncaixeController : MonoBehaviour
         _pieces = new DraggablePiece[numPieces];
         _pieceSlots = new PieceSlot[numPieces];
 
+        Vector2[] _slotsPosition = new Vector2[numPieces];
+
+        for(int i = 0; i < numPieces; i++)
+        {
+            _slotsPosition[i].x = -1;
+            _slotsPosition[i].y = -1;
+        }
+
         for (int i = 0; i < numPieces; i++)
         {
             GameObject instantiatedPieceSlot = Instantiate(pieceSlotPrefab, piecesContainer);
 
-            instantiatedPieceSlot.transform.position = piecesInfo[i].position * 1.2f;
+            //instantiatedPieceSlot.transform.position = piecesInfo[i].position * 1.5f;
+
+            instantiatedPieceSlot.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
             
+            for(int j = 0; j < numPieces; j++)
+            {
+                if(_slotsPosition[j] == new Vector2(-1, -1))
+                {
+                    _slotsPosition[j].x = instantiatedPieceSlot.transform.position.x;
+                    _slotsPosition[j].y = instantiatedPieceSlot.transform.position.y;
+                }
+                else
+                {
+                    if(_slotsPosition[j].x == instantiatedPieceSlot.transform.position.x && _slotsPosition[j].y == instantiatedPieceSlot.transform.position.y)
+                    {
+                        Debug.Log("Igual");
+                        instantiatedPieceSlot.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
+                        j = 0;
+                    }
+                }
+            }
+
             _pieceSlots[i] = instantiatedPieceSlot.GetComponent<PieceSlot>();
         }
         
+        Vector2[] _piecesPosition = new Vector2[numPieces];
+
+        for(int i = 0; i < numPieces; i++)
+        {
+            _piecesPosition[i].x = -1;
+            _piecesPosition[i].y = -1;
+        }
+
         for(int i = 0; i < numPieces; i++)
         {
             GameObject instantiatedPiece = Instantiate(piecePrefab, piecesContainer);
             
-            instantiatedPiece.transform.position = piecesInfo[i].position;
+            instantiatedPiece.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
+
+            for(int j = 0; j < numPieces; j++)
+            {
+                if(_piecesPosition[j] == new Vector2(-1, -1))
+                {
+                    _piecesPosition[j].x =  instantiatedPiece.transform.position.x;
+                    _piecesPosition[j].y =  instantiatedPiece.transform.position.y;
+                }
+                else
+                {
+                    if(_piecesPosition[j].x ==  instantiatedPiece.transform.position.x && _piecesPosition[j].y ==  instantiatedPiece.transform.position.y)
+                    {
+                        Debug.Log("Igual");
+                         instantiatedPiece.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
+                        j = 0;
+                    }
+                }
+            }
+
             _pieces[i] = instantiatedPiece.GetComponent<DraggablePiece>();
             
             StartCoroutine(SetPieceSprite(piecesInfo[i], i));
