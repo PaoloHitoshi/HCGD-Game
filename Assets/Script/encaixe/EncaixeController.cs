@@ -22,6 +22,9 @@ public class EncaixeController : MonoBehaviour
     private int _numSnappedPieces = 0;
     private int _loadedImgs = 0;
 
+    public int right = 0;
+    public int wrong = 0;
+
     private void Awake()
     {
         SetCurrentEncaixe();

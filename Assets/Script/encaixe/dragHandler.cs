@@ -10,6 +10,7 @@ public class dragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     private bool done;
     private AudioSource source;
 
+    [SerializeField] private EncaixeController mistake;
 
     void Awake()
     {
@@ -70,9 +71,5 @@ public class dragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             done = true;
             ControllerPuzzle.completePiece();
         }
-
     }
-
-
-
 }

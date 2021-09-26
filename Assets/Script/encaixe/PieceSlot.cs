@@ -8,6 +8,13 @@ public class PieceSlot : MonoBehaviour, IDropHandler
 
     [SerializeField] private RawImage image;
 
+    [SerializeField] private EncaixeController encaixe;
+
+    private void Awake()
+    {
+        encaixe = FindObjectOfType<EncaixeController>();
+    }
+
     public void Setup(int index, Texture2D texture)
     {
         Id = index;
@@ -20,11 +27,22 @@ public class PieceSlot : MonoBehaviour, IDropHandler
         
         if (obj != null && obj.TryGetComponent(out DraggablePiece piece))
         {
-            if (piece.Id != Id) return;
+            if (piece.Id != Id) 
+            {
+                encaixe.wrong++; 
+                
+                //Debug.Log(encaixe.wrong); 
+                
+                return;
+            }
+
+            encaixe.right++; 
+            
+            //Debug.Log(encaixe.right);
 
             piece.OnDrop(transform.position);
             image.color = Color.white;
-            
+
             Destroy(obj);
         }
     }
