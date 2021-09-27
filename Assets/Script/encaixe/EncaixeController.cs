@@ -73,7 +73,9 @@ public class EncaixeController : MonoBehaviour
 
             //instantiatedPieceSlot.transform.position = piecesInfo[i].position * 1.5f;
 
-            instantiatedPieceSlot.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
+            RectTransform rectTransform = instantiatedPieceSlot.GetComponent<RectTransform>();
+
+            instantiatedPieceSlot.transform.position = new Vector2(Random.Range(rectTransform.rect.width/2, Screen.width - rectTransform.rect.width/2), Random.Range(rectTransform.rect.height/2, Screen.height - rectTransform.rect.height/2));
             
             for(int j = 0; j < numPieces; j++)
             {
@@ -87,7 +89,7 @@ public class EncaixeController : MonoBehaviour
                     if(_slotsPosition[j].x == instantiatedPieceSlot.transform.position.x && _slotsPosition[j].y == instantiatedPieceSlot.transform.position.y)
                     {
                         Debug.Log("Igual");
-                        instantiatedPieceSlot.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
+                        instantiatedPieceSlot.transform.position = new Vector2(Random.Range(rectTransform.rect.width/2, Screen.width - rectTransform.rect.width/2), Random.Range(rectTransform.rect.height/2, Screen.height - rectTransform.rect.height/2));
                         j = 0;
                     }
                 }
@@ -107,26 +109,8 @@ public class EncaixeController : MonoBehaviour
         for(int i = 0; i < numPieces; i++)
         {
             GameObject instantiatedPiece = Instantiate(piecePrefab, piecesContainer);
-            
-            instantiatedPiece.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
 
-            for(int j = 0; j < numPieces; j++)
-            {
-                if(_piecesPosition[j] == new Vector2(-1, -1))
-                {
-                    _piecesPosition[j].x =  instantiatedPiece.transform.position.x;
-                    _piecesPosition[j].y =  instantiatedPiece.transform.position.y;
-                }
-                else
-                {
-                    if(_piecesPosition[j].x ==  instantiatedPiece.transform.position.x && _piecesPosition[j].y ==  instantiatedPiece.transform.position.y)
-                    {
-                        Debug.Log("Igual");
-                         instantiatedPiece.transform.position = new Vector2(Random.Range(0f, Screen.width - 100), Random.Range(0f, Screen.height - 100));
-                        j = 0;
-                    }
-                }
-            }
+            instantiatedPiece.transform.position = piecesInfo[i].position;
 
             _pieces[i] = instantiatedPiece.GetComponent<DraggablePiece>();
             

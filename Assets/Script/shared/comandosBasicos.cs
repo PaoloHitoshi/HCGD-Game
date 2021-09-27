@@ -2,7 +2,6 @@
 using UnityEngine.SceneManagement;
 public class ComandosBasicos : MonoBehaviour
 {
-
     public void CarregaCena(string nome)
     {
         SceneManager.LoadScene(nome, LoadSceneMode.Single);

@@ -31,14 +31,14 @@ public class PieceSlot : MonoBehaviour, IDropHandler
             {
                 encaixe.wrong++; 
                 
-                //Debug.Log(encaixe.wrong); 
+                Debug.Log(encaixe.wrong); 
                 
                 return;
             }
 
             encaixe.right++; 
             
-            //Debug.Log(encaixe.right);
+            Debug.Log(encaixe.right);
 
             piece.OnDrop(transform.position);
             image.color = Color.white;
